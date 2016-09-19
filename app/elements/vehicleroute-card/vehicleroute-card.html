@@ -51,8 +51,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     </div><div class="field">
                       <paper-dropdown-menu  label="Trip">
                         <paper-menu id="sets01" class="dropdown-content" on-iron-select="tripzxc" >
-                          <paper-item value=1>Primary</paper-item>
-                          <paper-item value=2>Pre-Primary</paper-item>
+                          <paper-item value=1>1</paper-item>
+                          <paper-item value=2>2</paper-item>
                         </paper-menu>
                       </paper-dropdown-menu>
                     </div>
@@ -76,7 +76,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         </paper-menu>
                       </paper-dropdown-menu>
                     </div>
-                    <div class="field">
+                    <!-- <div class="field">
                       <paper-dropdown-menu  label="Attender">
                         <paper-menu id="sets3" class="dropdown-content" on-iron-select="attender" attr-for-selected="value" >
                           <template  is="dom-repeat" items="{{bustoattender}}" as="view">
@@ -84,7 +84,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                           </template>
                         </paper-menu>
                       </paper-dropdown-menu>
-                    </div>
+                    </div> -->
                   </div>
                 </li>
               </ul>
@@ -159,7 +159,7 @@ var attender;
         document.querySelector('#sets01').selected = -1;
         document.querySelector('#sets1').selected = -1;
         document.querySelector('#sets2').selected = -1;
-        document.querySelector('#sets3').selected = -1;
+        /*document.querySelector('#sets3').selected = -1;*/
         this.noofseats='';
         this.noofstudents='';
       },
@@ -190,11 +190,11 @@ var attender;
       },
       driver:function(e){
         driver = (e.target.selectedItem.value);
-      },
+      },/*
       attender:function(e){
         attender = (e.target.selectedItem.value);
       },
-     
+     */
       noofstudentsinrouteResponse:function(e)
       {
         var routereportresult=e.detail.response.returnval;
@@ -212,7 +212,7 @@ var attender;
       {
           var routename=(e.target.selectedItem.textContent).trim();
           
-          if(routename=='Primary')
+          if(routename=='1')
           {
             val=1;
           }
@@ -235,7 +235,11 @@ var attender;
         var dialog = document.getElementById(id);
         dialog.opened=false;
         //alert(this.route+"  "+this.routeid);
-         this.$.root.mapbustoroute(this.routeid,bus,driver,attender,val);
+        alert(this.routeid);
+        alert(bus);
+        alert(driver);
+        alert(val);
+         this.$.root.mapbustoroute(this.routeid,bus,driver,val);
      
    },
    

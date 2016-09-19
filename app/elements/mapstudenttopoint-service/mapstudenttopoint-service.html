@@ -179,6 +179,8 @@
         var obj={"schol":""}
         obj.schol=sessionStorage.getItem("sch");
         this.selectclassparam=obj;
+        alert('hi');
+        alert(JSON.stringify(obj));
           this.$.selectclassajax.generateRequest();
       },
       FnClear:function(){
@@ -186,6 +188,7 @@
       },
       selectclassResponse:function(e){
         var classdetail=e.detail.response.returnval;
+        alert(JSON.stringify(classdetail));
         document.querySelector('mapstudenttopoint-card').classarr=classdetail;
       },
       selectname:function(){
@@ -224,10 +227,13 @@
         obj.classes=cla;
         obj.schol=sessionStorage.getItem("sch");
         this.classpickparam=obj;
+        alert('hi');
+        alert(JSON.stringify(obj));
         this.$.classpickajax.generateRequest();
       },
       classpickResponse:function(e){
         var student=e.detail.response.returnval;
+        alert(JSON.stringify(student));
         document.querySelector('mapstudenttopoint-card').studentarr=student;
       },
       submit:function(itemarr){
@@ -314,9 +320,9 @@
       this.$.getclasspassajax.generateRequest();
       },
       getclasspassResponse:function(e) {
-        //alert('2 ');
+        alert('2 ');
         var starr = e.detail.response.returnval;
-        //alert(JSON.stringify(starr));
+        alert(JSON.stringify(starr));
         document.querySelector('passtemplate-card').fngetid(starr);
       },
       routedetail:function(){

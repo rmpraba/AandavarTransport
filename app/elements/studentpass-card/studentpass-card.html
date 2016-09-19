@@ -71,8 +71,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div id="selectclass" >
         <paper-dropdown-menu   label="Select Grade">
           <paper-menu class="dropdown-content" id="gradeselect" on-iron-select="class" attr-for-selected="value" >
-              <paper-item value="1">Primary</paper-item>            
-              <paper-item value="2">Pre-Primary</paper-item>
+              <paper-item value="ug">UG</paper-item>            
+              <paper-item value="pg">PG</paper-item>
             
           </paper-menu>
         </paper-dropdown-menu>
@@ -347,13 +347,13 @@ this.$.selectclass.hidden=true;
   class:function(e){
 
     var val=(e.target.selectedItem.textContent).trim();
-    if(val=='Primary')
+    if(val=='UG')
     {
-        num=1;
+        num=ug;
     }
     else
     {
-        num=2; 
+        num=pg; 
     }
     //alert(num);
     this.$.maps.getgradedata(num);

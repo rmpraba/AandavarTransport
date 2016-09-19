@@ -1,4 +1,4 @@
-busreport<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <dom-module id="transport-service">
     <template>
@@ -845,7 +845,7 @@ busreport<link rel="import" href="../../bower_components/polymer/polymer.html">
       debounce-duration="300"
     >
     </iron-ajax>
-    <iron-ajax
+<!--     <iron-ajax
       method="post"
       id="bustoattenderajax"
       url="{{bustoattenderurl}}"
@@ -855,7 +855,7 @@ busreport<link rel="import" href="../../bower_components/polymer/polymer.html">
       on-response="bustoattenderResponse"
       debounce-duration="300"
       >
-    </iron-ajax>
+    </iron-ajax> -->
      <iron-ajax
       method="post"
       id="mapbustorouteajax"
@@ -1430,7 +1430,7 @@ busreport<link rel="import" href="../../bower_components/polymer/polymer.html">
         obj.routeid=routeid;
         obj.tripid=tripid;
         this.studentpickroutereportparam=obj;
-        //alert(JSON.stringify(obj));
+        alert(JSON.stringify(obj));
         //alert(JSON.stringify(obj));
         //alert('hi');
         this.$.studentpickroutereportajax.generateRequest();
@@ -1456,7 +1456,7 @@ busreport<link rel="import" href="../../bower_components/polymer/polymer.html">
         obj.tripid=tripid;
         obj.grade=grade;
         this.gradewisepickroutereportparam=obj;
-        //alert(JSON.stringify(obj));
+        alert(JSON.stringify(obj));
         //alert(JSON.stringify(obj));
         //alert('hi');
         this.$.gradewisepickroutereportajax.generateRequest();
@@ -2995,12 +2995,12 @@ document.querySelector('cqreceipt-card').receiptarr=recarr1;
         this.$.bustodriverajax.generateRequest();
 
 
-        this.bustoattenderurl = sessionStorage.getItem("addrinfo")+"/bustoattender";
+/*        this.bustoattenderurl = sessionStorage.getItem("addrinfo")+"/bustoattender";
         var obj = {"schol":""};
         obj.schol=sessionStorage.getItem("sch");
         this.bustoattenderparam=obj;
         //alert(JSON.stringify(obj));
-        this.$.bustoattenderajax.generateRequest();
+        this.$.bustoattenderajax.generateRequest();*/
     },
      routetobusResponse:function(e){
         var routetobus = e.detail.response.returnval;
@@ -3011,27 +3011,24 @@ document.querySelector('cqreceipt-card').receiptarr=recarr1;
         document.querySelector('vehicleroute-card').bustodriver=bustodriver;
         //alert(JSON.stringify(this.bustodriver));
       },
-      bustoattenderResponse:function(e){
+/*      bustoattenderResponse:function(e){
         var bustoattender = e.detail.response.returnval;
         document.querySelector('vehicleroute-card').bustoattender=bustoattender;
         //alert(JSON.stringify(this.bustoattender));
-      },
-      mapbustoroute:function(route,bus,driver,attender,val){
+      },*/
+      mapbustoroute:function(route,bus,driver,val){
         var dat2=new Date();
-            var today = dat2.getFullYear()+"/"+(dat2.getMonth()+1)+"/"+dat2.getDate();
-
+        var today = dat2.getFullYear()+"/"+(dat2.getMonth()+1)+"/"+dat2.getDate();
         this.mapbustorouteurl = sessionStorage.getItem("addrinfo")+"/mapbustoroute";
-        var obj = {"schol":"","route":"","bus":"","driver":"","attender":"","trip":"","updatedby":"","updateon":""};
+        var obj = {"schol":"","route":"","bus":"","driver":"","trip":"","updatedby":"","updateon":""};
         obj.schol=sessionStorage.getItem("sch");
         obj.route=route;
         obj.bus=bus;
         obj.driver=driver;
-        obj.attender=attender;
         obj.trip=val;
         obj.updatedby=sessionStorage.getItem("userinfo");
         obj.updateon=today;
         this.mapbustorouteparam=obj;
-        //alert(JSON.stringify(obj));
         this.$.mapbustorouteajax.generateRequest();
       },
       mapbustorouteResponse:function(e){

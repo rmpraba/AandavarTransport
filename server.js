@@ -6,7 +6,7 @@ var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : 'admin',
-  database : 'transport'
+  database : 'aandavartransport'
 });
 var bodyParser = require('body-parser');
  var app = express();
@@ -952,9 +952,11 @@ app.post('/pickpoints',  urlencodedParser,function (req, res)
     var studid=req.query.studid;
     var schoolx=req.query.schol;
   var trip=req.query.schooltype;
+  var qur="SELECT id, point_name from point where route_id='"+req.query.routept+"' and school_id='"+req.query.schol+"' and distance_from_school<=(select maxdistance from md_distance where id=(select distance_id from md_zone where id=(select zone_id from student_fee where student_id='"+req.query.studid+"' and school_id='"+req.query.schol+"') and school_id='"+req.query.schol+"') ) and trip='"+req.query.schooltype+"' and school_id='"+req.query.schol+"'";
+     console.log(qur);
+      connection.query(qur,
     //console.log(req.query.schol);
        //connection.query('SELECT id, point_name from point where route_id=? and school_id=? and distance_from_school<=(select maxdistance from md_distance where id=(select distance_id from md_zone where id=(select zone_id from student_fee where student_id=?))) and trip=?',[route_id,schoolx,studid,trip],
-        connection.query('SELECT id, point_name from point where route_id=? and school_id=? and distance_from_school<=(select maxdistance from md_distance where id=(select distance_id from md_zone where id=(select zone_id from student_fee where student_id=? and school_id=?) and school_id=?) ) and trip=? and school_id=?',[route_id,schoolx,studid,schoolx,schoolx,trip,schoolx],
         function(err, rows)
         {
     if(!err)
@@ -966,7 +968,6 @@ app.post('/pickpoints',  urlencodedParser,function (req, res)
     }
     else
     {
-
       res.status(200).json({'returnval': 'invalid'});
     }
   }
@@ -1664,10 +1665,10 @@ app.post('/route-report-card',  urlencodedParser,function (req, res){
 app.post('/studentpickroute-report-card',  urlencodedParser,function (req, res){
   var tripid={"school_type":req.query.tripid};
   var schoolx={"school_id":req.query.schol};
-    //console.log(req.query.pickordrop);
-         var route_id={"pickup_route_id":req.query.routeid};
+  //console.log(req.query.pickordrop);
+  var route_id={"pickup_route_id":req.query.routeid};
 
-    connection.query('SELECT p.student_id,(select student_name from student_details where id=p.student_id and ?)as name,(select class from class_details where id=(select class_id from student_details where id=p.student_id and ?)) as std,(select m.mobile from parent m where student_id=p.student_id and ?) as mobile,(select parent_name from parent where student_id=p.student_id and ?) as pname,(select point_name from point where id=pickup_point)  as pick from student_point p where ? and ? and ?',[schoolx,schoolx,schoolx,schoolx,route_id,tripid,schoolx],
+    connection.query('SELECT p.student_id,(select student_name from student_details where id=p.student_id and ?)as name,(select class from class_details where id=(select class_id from student_details where id=p.student_id and ?)) as std,(select point_name from point where id=pickup_point)  as pick from student_point p where ? and ? and ?',[schoolx,schoolx,schoolx,schoolx,route_id,tripid,schoolx],
     function(err, rows){
     if(!err){
       if(rows.length>0){
@@ -1689,7 +1690,7 @@ app.post('/studentdroproute-report-card',  urlencodedParser,function (req, res){
     //console.log(tripid);
          var route_id={"drop_route_id":req.query.routeid};
 
-    connection.query('SELECT p.student_id,(select student_name from student_details where id=p.student_id and ?)as name,(select class from class_details where id=(select class_id from student_details where id=p.student_id and ?)) as std,(select m.mobile from parent m where student_id=p.student_id and ?) as mobile,(select parent_name from parent where student_id=p.student_id and ?) as pname,(select point_name from point where id=drop_point)  as pick from student_point p where ? and ? and ?',[schoolx,schoolx,schoolx,schoolx,route_id,tripid,schoolx],
+    connection.query('SELECT p.student_id,(select student_name from student_details where id=p.student_id and ?)as name,(select class from class_details where id=(select class_id from student_details where id=p.student_id and ?)) as std,(select point_name from point where id=drop_point)  as pick from student_point p where ? and ? and ?',[schoolx,schoolx,schoolx,schoolx,route_id,tripid,schoolx],
     function(err, rows){
     if(!err){
       if(rows.length>0){
@@ -3145,13 +3146,12 @@ app.post('/getclasspass',  urlencodedParser,function (req, res)
 {
   var clasx=req.query.id;
   var schoolx=req.query.schol;
-
   connection.query('Select * from student_point where school_type=? and school_id=?',[clasx,schoolx],
     function(err, rows){
       if(!err){
         if(rows.length>0)
         {
-          //console.log(rows);
+          console.log(rows);
           res.status(200).json({'returnval': rows});
         } else {
           console.log(err);
@@ -3607,7 +3607,7 @@ app.post('/bustoroutesubmit',  urlencodedParser,function (req, res){
 app.post('/busreport' ,  urlencodedParser,function (req, res)
 {
   var scho={"school_id":req.query.schol};
-  connection.query('select route_id,(select route_name from route where id = route_id) as route_name, trip,bus_id,(select made_model from bus where id = bus_id) as bus_model, driver_id,(select first_name from driver where id = driver_id) as driver_firstname,(select last_name from driver where id = driver_id) as driver_lastname,(select mobile_no from driver where id = driver_id) as driver_mobile, attender_id, (select first_name from attender where id = attender_id) as attender_firstname,(select last_name from attender where id = attender_id) as attender_lastname,(select mobile_no from attender where id = attender_id) as attender_mobile from route_bus where ?',[scho],
+  connection.query('select route_id,(select route_name from route where id = route_id) as route_name, trip,bus_id,(select made_model from bus where id = bus_id) as bus_model, driver_id,(select first_name from driver where id = driver_id) as driver_firstname,(select last_name from driver where id = driver_id) as driver_lastname,(select mobile_no from driver where id = driver_id) as driver_mobile from route_bus where ?',[scho],
     function(err, rows){
       if(!err){
         if(rows.length>0)
@@ -4010,7 +4010,7 @@ app.post('/zonechangeinsta1cash',  urlencodedParser,function (req, res)
 }); 
 
 app.post('/mapbustoroute',  urlencodedParser,function (req, res){
-  var schoolx={"school_id":req.query.schol,"route_id":req.query.route,"bus_id":req.query.bus,"driver_id":req.query.driver,"attender_id":req.query.attender,"trip":req.query.trip,"updated_by":req.query.updatedby,"updated_date":req.query.updateon};
+  var schoolx={"school_id":req.query.schol,"route_id":req.query.route,"bus_id":req.query.bus,"driver_id":req.query.driver,"trip":req.query.trip,"updated_by":req.query.updatedby,"updated_date":req.query.updateon};
     connection.query('insert into route_bus set ?',[schoolx],
         function(err, rows){
     if(!err){
@@ -4019,6 +4019,9 @@ app.post('/mapbustoroute',  urlencodedParser,function (req, res){
     } else {
       console.log(err);
       res.status(200).json({'returnval': 'invalid'});
+    }
+    if(err){
+      console.log(err);
     }
   });
 });
@@ -4041,8 +4044,8 @@ app.post('/gradewisepickroute-report-card',  urlencodedParser,function (req, res
   var grade = {"class_id":req.query.grade};
   //console.log(req.query.grade);
     var route_id={"pickup_route_id":req.query.routeid};
-    var query="SELECT p.student_id,(select d.student_name from student_details d where id=p.student_id and school_id='"+req.query.schol+"')as name,(select zone_name from md_zone where id =(select f.zone_id from student_fee f where student_id=p.student_id and school_id='"+req.query.schol+"'))as zone,(select m.mobile from parent m where student_id=p.student_id and school_id='"+req.query.schol+"') as mobile,(select c.class from class_details c where c.id=(select d.class_id from student_details d where d.id=p.student_id and d.school_id='"+req.query.schol+"' and d.class_id = '"+req.query.grade+"')) as std,(select parent_name from parent where student_id=p.student_id and school_id='"+req.query.schol+"') as pname,(select point_name from point where id=pickup_point) as pick from student_point p where pickup_route_id='"+req.query.routeid+"' and school_type='"+req.query.tripid+"' and school_id='"+req.query.schol+"' and (select c.class from class_details c where c.id=(select d.class_id from student_details d where d.id=p.student_id and d.school_id='"+req.query.schol+"' and d.class_id = '"+req.query.grade+"')) is not null";
-    //console.log(query);
+    var query="SELECT p.student_id,(select d.student_name from student_details d where id=p.student_id and school_id='"+req.query.schol+"')as name,(select zone_name from md_zone where id =(select f.zone_id from student_fee f where student_id=p.student_id and school_id='"+req.query.schol+"'))as zone,(select c.class from class_details c where c.id=(select d.class_id from student_details d where d.id=p.student_id and d.school_id='"+req.query.schol+"' and d.class_id = '"+req.query.grade+"')) as std,(select point_name from point where id=pickup_point) as pick from student_point p where pickup_route_id='"+req.query.routeid+"' and trip='"+req.query.tripid+"' and school_id='"+req.query.schol+"' and (select c.class from class_details c where c.id=(select d.class_id from student_details d where d.id=p.student_id and d.school_id='"+req.query.schol+"' and d.class_id = '"+req.query.grade+"')) is not null";
+    console.log(query);
     connection.query(query,
     function(err, rows){
     if(!err){
@@ -4067,7 +4070,7 @@ app.post('/gradewisedroproute-report-card',  urlencodedParser,function (req, res
     var route_id={"drop_route_id":req.query.routeid};
 
     //console.log('In Server');
-    var query="SELECT p.student_id,(select d.student_name from student_details d where id=p.student_id and school_id='"+req.query.schol+"')as name,(select c.class from class_details c where c.id=(select d.class_id from student_details d where d.id=p.student_id and d.school_id='"+req.query.schol+"' and d.class_id = '"+req.query.grade+"')) as std,(select parent_name from parent where student_id=p.student_id and school_id='"+req.query.schol+"') as pname,(select point_name from point where id=pickup_point) as pick from student_point p where pickup_route_id='"+req.query.routeid+"' and school_type='"+req.query.tripid+"' and school_id='"+req.query.schol+"' and (select c.class from class_details c where c.id=(select d.class_id from student_details d where d.id=p.student_id and d.school_id='"+req.query.schol+"' and d.class_id = '"+req.query.grade+"')) is not null";
+    var query="SELECT p.student_id,(select d.student_name from student_details d where id=p.student_id and school_id='"+req.query.schol+"')as name,(select c.class from class_details c where c.id=(select d.class_id from student_details d where d.id=p.student_id and d.school_id='"+req.query.schol+"' and d.class_id = '"+req.query.grade+"')) as std,(select point_name from point where id=pickup_point) as pick from student_point p where pickup_route_id='"+req.query.routeid+"' and trip='"+req.query.tripid+"' and school_id='"+req.query.schol+"' and (select c.class from class_details c where c.id=(select d.class_id from student_details d where d.id=p.student_id and d.school_id='"+req.query.schol+"' and d.class_id = '"+req.query.grade+"')) is not null";
     connection.query(query,
     function(err, rows){
     if(!err){
