@@ -11,7 +11,7 @@
             content-type="application/json"
             on-response="getrouteResponse"
             debounce-duration="300"
-            > 
+            >
         </iron-ajax>
         <iron-ajax
             method="post"
@@ -1027,15 +1027,81 @@
     </iron-ajax>
     <iron-ajax
       method="post"
-      id=""
-      url="{{}}"
-      params="{{}}"
+      id="departmentwisereportajax"
+      url="{{departmentwisereporturl}}"
+      params="{{departmentwisereportparam}}"
       handle-as="json"
       content-type="application/json"
-      on-response="Response"
+      on-response="departmentwisereportResponse"
       debounce-duration="300"
       >
     </iron-ajax>
+      <iron-ajax
+        method="post"
+        id="departmentajax"
+        url="{{departmenturl}}"
+        params="{{departmentparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="departmentResponse"
+        debounce-duration="300"
+      >
+      </iron-ajax>
+      <iron-ajax
+        method="post"
+        id="getclassinsidedeptajax"
+        url="{{getclassinsidedepturl}}"
+        params="{{getclassinsidedeptparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="getclassinsidedeptResponse"
+        debounce-duration="300"
+      >
+      </iron-ajax>
+      <iron-ajax
+        method="post"
+        id="getclassreportajax"
+        url="{{getclassreporturl}}"
+        params="{{getclassreportparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="getclassreportResponse"
+        debounce-duration="300"
+      >
+      </iron-ajax>
+      <iron-ajax
+        method="post"
+        id="getreportdeptrouteajax"
+        url="{{getreportdeptrouteurl}}"
+        params="{{getreportdeptrouteparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="getreportdeptrouteResponse"
+        debounce-duration="300"
+      >
+      </iron-ajax>
+      <iron-ajax
+        method="post"
+        id="deptgenderajax"
+        url="{{deptgenderurl}}"
+        params="{{deptgenderparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="deptgenderResponse"
+        debounce-duration="300"
+      >
+      </iron-ajax>
+      <iron-ajax
+        method="post"
+        id="deptugpggenderajax"
+        url="{{deptugpggenderurl}}"
+        params="{{deptgenderparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="deptugpggenderResponse"
+        debounce-duration="300"
+      >
+      </iron-ajax>
     </template>
   <script>
   (function() {
@@ -1124,6 +1190,7 @@
       getrouteResponse:function(e1)
       {
         var a2=e1.detail.response.returnval;
+        document.querySelector('dept-route-report').routearray= a2;
         document.querySelector('mappointtoroute-card').routearr=a2;
         document.querySelector('vehicleroute-card').routes=a2;
         document.querySelector('staffallocation-card').routearr=a2;
@@ -1974,7 +2041,7 @@ getfeeofzonechangeResponse:function(e)
         //alert(JSON.stringify(e.detail.response.returnval));
         zonefeechange=e.detail.response.returnval;
         //alert(JSON.stringify(zonefeechange));
-        
+
          //alert(JSON.stringify(feedet));
         },
 getfeeparentResponse:function(e)
@@ -2744,12 +2811,12 @@ document.querySelector('cqreceipt-card').receiptarr=recarr1;
             }
             chequearr2.push(obj1);
             document.querySelector('editcheque-card').editarr2=chequearr2;
-            
+
         }
-            
-            
-           
-            
+
+
+
+
             document.querySelector('editcheque-card').id=id;
             document.querySelector('editcheque-card').name=name;
         },
@@ -3100,7 +3167,7 @@ document.querySelector('cqreceipt-card').receiptarr=recarr1;
         var attendancearr=e.detail.response.returnval;
         document.querySelector('attendance-card').attendancearr=attendancearr;
 
-      }, 
+      },
       getstudentsforattendance:function(route,trip,pickupordrop){
       if(pickupordrop=="Pickup"){
         this.getstudentsforattendancepickupurl=sessionStorage.getItem("addrinfo")+"/getstudentsforattendancepickup";
@@ -3170,19 +3237,19 @@ document.querySelector('cqreceipt-card').receiptarr=recarr1;
         if(res=='success')
         {
             int=int+1;
-        
+
             if(lenx==int)
             {
-            alert('Attendance of '+int+' student is marked successfully'); 
-            document.querySelector('transport-app').setPage("addattendence","Attendance");      
-            document.querySelector('addattendence-card').FnClear();      
+            alert('Attendance of '+int+' student is marked successfully');
+            document.querySelector('transport-app').setPage("addattendence","Attendance");
+            document.querySelector('addattendence-card').FnClear();
             }
-            
+
         }
         else{
-         alert('Attendance is not marked');   
+         alert('Attendance is not marked');
         }
-        
+
     },
     staffgetname:function(){
         this.staffgetnameurl=sessionStorage.getItem("addrinfo")+"/staffgetname";
@@ -3229,7 +3296,7 @@ document.querySelector('cqreceipt-card').receiptarr=recarr1;
             alert('Staff routing alloted successfully');
         }
         else{
-            alert('Staff routing not alloted');   
+            alert('Staff routing not alloted');
         }
     },
     getstaffroute:function(rout,trip){
@@ -3291,9 +3358,126 @@ document.querySelector('cqreceipt-card').receiptarr=recarr1;
         this.$.deletechequeajax.generateRequest();
 
     },
-    distancehello:function(){
-        
-    }
+    departmentwisereport:function(){
+
+      this.departmentwisereporturl=sessionStorage.getItem("addrinfo")+"/departmentwisereport";
+        var obj={"schol":""}
+        obj.schol=sessionStorage.getItem("sch");
+        this.departmentwisereportparam=obj;
+        //alert(JSON.stringify(obj));
+        this.$.departmentwisereportajax.generateRequest();
+    },
+    departmentwisereportResponse:function(e){
+        var res=e.detail.response.returnval;
+        alert(JSON.stringify(res));
+        document.querySelector('departmentwisereport-card').report=res;
+
+    },
+      department:function(){
+        this.departmenturl=sessionStorage.getItem("addrinfo")+"/department";
+        var obj={"schol":""}
+        obj.schol=sessionStorage.getItem("sch");
+        this.departmentparam=obj;
+        //alert(JSON.stringify(obj));
+        this.$.departmentajax.generateRequest();
+      },
+      departmentResponse:function(e){
+        var res=e.detail.response.returnval;
+        document.querySelector('dept-class-report').department=res;
+        document.querySelector('dept-route-report').department=res;
+      },
+      getclassinsidedept:function(department){
+        this.getclassinsidedepturl=sessionStorage.getItem("addrinfo")+"/getclassinsidedept";
+        var obj={"schol":"","department":""};
+        obj.schol=sessionStorage.getItem("sch");
+        obj.department=department;
+        this.getclassinsidedeptparam=obj;
+        this.$.getclassinsidedeptajax.generateRequest();
+      },
+
+      getclassinsidedeptResponse:function(e){
+        var res=e.detail.response.returnval;
+        document.querySelector('dept-class-report').grade=res;
+
+      },
+      getreport:function(grade){
+        this.getclassreporturl=sessionStorage.getItem("addrinfo")+"/getclassreporturl";
+        var obj={"schol":"","grade":""};
+        obj.schol=sessionStorage.getItem("sch");
+        obj.grade=grade;
+        this.getclassreportparam=obj;
+        //alert(JSON.stringify(obj));
+        this.$.getclassreportajax.generateRequest();
+      },
+      getclassreportResponse:function(e){
+        var res=e.detail.response.returnval;
+        var length = res.length;
+        document.querySelector('dept-class-report').length=length;
+        document.querySelector('dept-class-report').reportarr=res;
+
+      },
+      getreportdeptroute:function(department,route){
+        this.getreportdeptrouteurl=sessionStorage.getItem("addrinfo")+"/getreportdeptroute";
+        var obj={"schol":"","department":"","route":""};
+        obj.schol=sessionStorage.getItem("sch");
+        obj.department=department;
+        obj.route=route;
+        this.getreportdeptrouteparam=obj;
+        //alert(JSON.stringify(obj));
+        this.$.getreportdeptrouteajax.generateRequest();
+      },
+      getreportdeptrouteResponse:function(e){
+        var res=e.detail.response.returnval;    
+        var length = res.length;
+        document.querySelector('dept-route-report').length=length;
+        document.querySelector('dept-route-report').reportarr=res;
+      },
+      deptgender:function(){
+        this.deptgenderurl=sessionStorage.getItem("addrinfo")+"/deptgender";
+        var obj={"schol":""};
+        obj.schol=sessionStorage.getItem("sch");
+        this.deptgenderparam=obj;
+        //alert(JSON.stringify(obj));
+        this.$.deptgenderajax.generateRequest();
+      },
+      deptgenderResponse:function(e){
+        var arr=[];
+        var res=e.detail.response.returnval;
+        for(var i=0;i<res.length;i++)
+        {
+             var obj={"department_name":"","male":"","female":"","total":""}
+             obj.department_name=res[i].department_name;
+             obj.male=res[i].male;
+             obj.female=res[i].female;
+             obj.total=parseInt(res[i].male)+parseInt(res[i].female);
+             arr.push(obj);
+
+        }
+        document.querySelector('dept-gender-report').reportarr=arr;
+      },
+        deptugpggender:function(){
+        this.deptugpggenderurl=sessionStorage.getItem("addrinfo")+"/deptugpggender";
+        var obj={"schol":""};
+        obj.schol=sessionStorage.getItem("sch");
+        this.deptugpggenderparam=obj;
+        this.$.deptugpggenderajax.generateRequest();
+      },
+      deptugpggenderResponse:function(e1){
+        var arr=[];
+        var res=e1.detail.response.returnval;
+        for(var i=0;i<res.length;i++)
+        {
+             var obj={"department_name":"","male":"","female":"","total":"","school_type":""}
+             obj.department_name=res[i].department_name;
+             obj.male=res[i].male;
+             obj.female=res[i].female;
+             obj.school_type=res[i].school_type;
+             obj.total=parseInt(res[i].male)+parseInt(res[i].female);
+             arr.push(obj);
+
+        }
+        document.querySelector('dept-ugpg-gender-report').reportarr=arr;
+      }
     });
  })();
 </script>

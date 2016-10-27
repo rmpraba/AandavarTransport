@@ -29,22 +29,27 @@
       <paper-icon-button class="iconbutton" src="../../images/points.png" on-click="pointallocation"></paper-icon-button>
        <paper-icon-button class="iconbutton" src="../../images/changepoints.png" on-click="changepointallocation"></paper-icon-button>
       <paper-icon-button class="iconbutton" src="../../images/allocation.png" on-click="routeallocation"></paper-icon-button>
-      
+
        <paper-icon-button class="iconbutton" src="../../images/bus.png" on-click="bus"></paper-icon-button>
         <!-- <paper-icon-button class="iconbutton" src="../../images/attender.png" on-click="attender"></paper-icon-button> -->
       <paper-icon-button class="iconbutton" src="../../images/driver.png" on-click="driver"></paper-icon-button>
        <paper-icon-button class="iconbutton" src="../../images/addroute.png" on-click="addroute"></paper-icon-button>
        <paper-icon-button class="iconbutton" src="../../images/busroute.png" on-click="busroute"></paper-icon-button>
       <!-- <paper-icon-button class="iconbutton" src="../../images/pass.png" on-click="stpass"></paper-icon-button> -->
-     
-     
-     
+
+
+
       <!-- <paper-icon-button class="iconbutton" src="../../images/bus_route.png" on-click="bustoroute"></paper-icon-button> -->
       <paper-icon-button class="iconbutton" src="../../images/bus_report.png" on-click="busreport"></paper-icon-button>
-      
+
        <!-- <paper-icon-button class="iconbutton" src="../../images/add_attendance.png" on-click="addattendence"></paper-icon-button> -->
       <paper-icon-button class="iconbutton" src="../../images/route_reports.png" on-click="routereport"></paper-icon-button>
        <paper-icon-button class="iconbutton" src="../../images/gradewise-route-report.png" on-click="gradewisereport"></paper-icon-button>
+        <paper-icon-button class="iconbutton" src="../../images/gradewise-route-report.png" on-click="classdeptwisereport"></paper-icon-button>
+        <paper-icon-button class="iconbutton" src="../../images/gradewise-route-report.png" on-click="deptgenderreport"></paper-icon-button>
+        <paper-icon-button class="iconbutton" src="../../images/gradewise-route-report.png" on-click="routedeptwisereport"></paper-icon-button>
+        <paper-icon-button class="iconbutton" src="../../images/gradewise-route-report.png" on-click="deptugpggenderreport"></paper-icon-button><!-- 
+       <paper-icon-button class="iconbutton" src="../../images/gradewise-route-report.png" on-click="departmentwisereport"></paper-icon-button> -->
        <!--<paper-icon-button class="iconbutton" src="../../images/staff_route.png" on-click="staffroute"></paper-icon-button>
         <paper-icon-button class="iconbutton" src="../../images/staffreport.png" on-click="stfreport"></paper-icon-button>-->
         <!--<paper-icon-button class="iconbutton" src="../../images/distance_icon.png" on-click="distance"></paper-icon-button>
@@ -84,7 +89,7 @@
         document.querySelector('transport-app').setPage("mappointtoroute","Map Point to Route");
         this.$.transportservice.getroute();
       },
-     
+
       routereport:function(){
       this.$.transportservice.generateroutereport();
       document.querySelector('transport-app').setPage("generateroutereport","Route Report");
@@ -143,6 +148,10 @@
       this.$.transportservice.generateroutereport();
       document.querySelector('transport-app').setPage("gradewiseroute","Grade Wise Route Report");
       },
+      departmentwisereport:function(){
+        this.$.transportservice.departmentwisereport();
+        document.querySelector('transport-app').setPage("departmentwisereport","Department Wise Report");
+      },
       addattendence:function()
       {
       //this.$.transportservice.getstudentsforattendance();
@@ -169,6 +178,23 @@
       distancereport:function(){
         document.querySelector('transport-app').setPage("distancereport","Route Report");
         //this.$.service.distancehello();
+      },
+      classdeptwisereport:function(){
+        this.$.transportservice.department();
+        document.querySelector('transport-app').setPage("classdeptwisereport","Department and Class Wise Report");
+      },
+      routedeptwisereport:function(){
+        this.$.transportservice.department();
+        this.$.transportservice.getroute();
+        document.querySelector('transport-app').setPage("routedeptwisereport","Department and Route Wise Report");
+      },
+      deptgenderreport:function(){
+        this.$.transportservice.deptgender();
+        document.querySelector('transport-app').setPage("deptgenderreport","Department and Gender Report");
+      },
+      deptugpggenderreport:function(){
+        this.$.transportservice.deptugpggender();
+        document.querySelector('transport-app').setPage("deptugpggenderreport","Department and Gender with UG/PG Wise Report");
       }
   });
 </script>

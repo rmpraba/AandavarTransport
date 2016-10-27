@@ -1,0 +1,41 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="dept-gender-report">
+  <template>
+  <table id="reporttable" border="1" style="margin:5% 0 0 35%;">
+      <tr id="tableheading"><th>Department</th><th>Male</th><th>Female</th><th>Total</th>
+      </tr>
+      <template  is="dom-repeat" items="{{reportarr}}" as="view">
+        <!--<feereportscheque-item-card studentid="{{views.student_id}}" studentname="{{views.student_name}}" standard="{{views.standard}}" section="{{views.section}}" bankname="{{views.bank_name}}" chequeno="{{views.cheque_no}}" createddate="{{views.created_date}}" chequedate="{{views.cheque_date}}" receiptno="{{views.receipt_no}}" feepaid="{{views.installment_1}}" fees="{{views.fees}}"></feereportscheque-item-card>-->
+        <tr><td>{{view.department_name}}</td><td>{{view.male}}</td><td>{{view.female}}</td><td>{{view.total}}</td></tr>
+      </template>
+    </table>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'dept-gender-report',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'dept-gender-report',
+          notify: true
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>

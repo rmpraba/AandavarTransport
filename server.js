@@ -1299,7 +1299,7 @@ app.post('/getnameofstu-card',  urlencodedParser,function (req, res)
 
 app.post('/payfee-card',  urlencodedParser,function (req, res)
 {
-   
+
         var instalment1date=req.query.instdate;
     var mode;
     var install1;
@@ -3663,7 +3663,7 @@ app.post('/noofseats',  urlencodedParser,function (req, res){
 });
 
 app.post('/consolidatedreportread',  urlencodedParser,function (req, res){
-  
+
     connection.query('select (select name from md_school where id=school_id) as schoolname,count(student_id) as paidcount from student_fee group by school_id',
     function(err, rows){
     if(!err){
@@ -3676,7 +3676,7 @@ app.post('/consolidatedreportread',  urlencodedParser,function (req, res){
 
 
 app.post('/consolidatedallocatedreportread',  urlencodedParser,function (req, res){
-  
+
     connection.query('select (select name from md_school where id=school_id) as schoolname,count(student_id) as allocatedcount from student_point group by school_id',
     function(err, rows){
     if(!err){
@@ -3699,7 +3699,7 @@ app.post('/valuesinsta1cheque',  urlencodedParser,function (req, res)
        console.log(qur);
       //connection.query('select f.student_id, p.parent_name, d.student_name, f.receipt_no1, f.fees,f.installment_1, c.cheque_no, c.bank_name, c.cheque_date,cd.class,cd.section from student_fee f inner join student_details d on f.student_id = d.id inner join cheque_details c on (f.student_id = c.student_id) join class_details cd on (cd.id=d.class_id) join parent p on p.student_id=d.id where ? between and ? and ? and ? and d.school_id=?',[fromdate,date, mode,type,schoolx],
 
-  
+
       // connection.query("Select f.student_id,f.receipt_no1,f.fees,f.installment_1,(select d.student_name from student_details d where d.id=f.student_id and f.school_id='"+req.query.schol+"') as name,(select (select z.class from class_details z where z.id=d.class_id and d.school_id='"+req.query.schol+"') from student_details d where d.id=f.student_id and f.school_id='"+req.query.schol+"')as standard,(select (select z.section from class_details z where z.id=d.class_id and d.school_id='"+req.query.schol+"') from student_details d where d.id=f.student_id and f.school_id='"+req.query.schol+"')as section, c.cheque_date, c.bank_name, c.cheque_no from student_fee f join cheque_details c on f.student_id = c.student_id where (? and ? and ?)",[date, mode,installtype],
       connection.query(qur,
         function(err, rows){
@@ -3849,7 +3849,7 @@ app.post('/valuesinsta2cash',  urlencodedParser,function (req, res)
             console.log(err);
           }
   });
-});  
+});
 
 app.post('/zonechangeinsta2cash',  urlencodedParser,function (req, res)
 {
@@ -3902,7 +3902,7 @@ app.post('/zonechangeinsta2cash',  urlencodedParser,function (req, res)
             console.log(err);
           }
   });
-});  
+});
 
 
 
@@ -3956,7 +3956,7 @@ app.post('/valuesinsta1cash',  urlencodedParser,function (req, res)
             console.log(err);
           }
   });
-}); 
+});
 
 app.post('/zonechangeinsta1cash',  urlencodedParser,function (req, res)
 {
@@ -4007,7 +4007,7 @@ app.post('/zonechangeinsta1cash',  urlencodedParser,function (req, res)
             console.log(err);
           }
   });
-}); 
+});
 
 app.post('/mapbustoroute',  urlencodedParser,function (req, res){
   var schoolx={"school_id":req.query.schol,"route_id":req.query.route,"bus_id":req.query.bus,"driver_id":req.query.driver,"trip":req.query.trip,"updated_by":req.query.updatedby,"updated_date":req.query.updateon};
@@ -4214,7 +4214,7 @@ app.post('/getstudentsforattendancepickup',  urlencodedParser,function (req, res
      }
    });
  });
- 
+
  app.post('/getstudentsforattendancedrop',  urlencodedParser,function (req, res){
    var tripid={"school_type":req.query.tripid};
    var schoolx={"school_id":req.query.schol};
@@ -4237,7 +4237,7 @@ app.post('/getstudentsforattendancepickup',  urlencodedParser,function (req, res
    });
  });
 
-  app.post('/staffgetname',  urlencodedParser,function (req, res){
+  /*app.post('/staffgetname',  urlencodedParser,function (req, res){
    var schoolx={"school_id":req.query.schol};
    connection.query('select name from staff_details where ?',[schoolx],
      function(err, rows){
@@ -4253,14 +4253,14 @@ app.post('/getstudentsforattendancepickup',  urlencodedParser,function (req, res
        console.log(err);
      }
    });
- });
-  
+ });*/
+
  app.post('/attsubmiturl',  urlencodedParser,function (req, res){
    var collection={"school_id":req.query.schol,"student_id":req.query.studentid,"student_name":req.query.student_name,"route_id":req.query.routeid,"mode_of_travel":req.query.pickupordrop,"trip":req.query.trip,"att_date":req.query.date,"status":req.query.status};
    //console.log(collection);
    connection.query('insert into attendance set ?',[collection],
      function(err, rows){
- 
+
        if(!err)
        {
          res.status(200).json({'returnval': 'success'});
@@ -4274,7 +4274,7 @@ app.post('/getstudentsforattendancepickup',  urlencodedParser,function (req, res
  });
 
 
- app.post('/getstaffid',  urlencodedParser,function (req, res){
+/* app.post('/getstaffid',  urlencodedParser,function (req, res){
    var schoolx={"school_id":req.query.schol};
    var name={"name":req.query.staffname};
    connection.query('select id from staff_details where ? and ?',[schoolx,name],
@@ -4291,7 +4291,7 @@ app.post('/getstudentsforattendancepickup',  urlencodedParser,function (req, res
        console.log(err);
      }
    });
- });
+ });*/
 
 app.post('/staffpick',  urlencodedParser,function (req, res)
 {
@@ -4345,7 +4345,7 @@ app.post('/staffdrop',  urlencodedParser,function (req, res)
 });
 
 
-app.post('/getstaffroute',  urlencodedParser,function (req, res)
+/*app.post('/getstaffroute',  urlencodedParser,function (req, res)
 {
   console.log('pick');
   var route_id={"pick_route":req.query.route};
@@ -4368,10 +4368,11 @@ app.post('/getstaffroute',  urlencodedParser,function (req, res)
     }
   }
 });
-});
+});*/
 
 
 
+/*
 app.post('/getstaffdrop',  urlencodedParser,function (req, res)
 {
   //console.log('drop');
@@ -4396,6 +4397,7 @@ app.post('/getstaffdrop',  urlencodedParser,function (req, res)
   }
 });
 });
+*/
 
 app.post('/staffroute',  urlencodedParser,function (req, res)
 {
@@ -4406,14 +4408,14 @@ app.post('/staffroute',  urlencodedParser,function (req, res)
         {
     if(!err)
     {
-    
+
       res.status(200).json({'returnval': 'success'});
     }
     else
     {
       res.status(200).json({'returnval': 'invalid'});
     }
-  
+
 });
 });
 
@@ -4466,9 +4468,9 @@ app.post('/updateeditcheque',  urlencodedParser,function (req, res)
   var bankname={"bank_name":req.query.bankname};
   var chequedate= {"cheque_date":req.query.chequedate};
   var prevcheque={"cheque_no":req.query.prevcheque};
-  var stuid={"student_id":req.query.stuid}; 
+  var stuid={"student_id":req.query.stuid};
   var schoolx={"school_id":req.query.schol};
-  
+
     connection.query('update cheque_details set ?,?,? where ? and ? and ?',[cheque_no,bankname,chequedate,prevcheque,stuid,schoolx],
         function(err, rows)
         {
@@ -4483,7 +4485,7 @@ app.post('/updateeditcheque',  urlencodedParser,function (req, res)
 app.post('/deletecheque',  urlencodedParser,function (req, res)
 {
   var cheque_no = {"cheque_no":req.query.chequeno};
-  var stuid={"student_id":req.query.stuid}; 
+  var stuid={"student_id":req.query.stuid};
   var install={"installtype":req.query.installtype};
   var schoolx={"school_id":req.query.schol};
   var qur1;
@@ -4504,7 +4506,7 @@ app.post('/deletecheque',  urlencodedParser,function (req, res)
           console.log('yes');
            connection.query(qur1,
             function(err, rows){
-       if(rows.length>0) 
+       if(rows.length>0)
         res.status(200).json({'returnval': rows});
        else
         res.status(200).json({'returnval': 'invalid'});
@@ -4592,13 +4594,13 @@ app.post('/getfeechequedetails',  urlencodedParser,function (req, res)
        var type=req.query.installtype;
        if(type="installment1"){
           var acknowno={"receipt_no1":req.query.acknow};
-    var receiptno={"new_receipt1":req.query.receipt};    
+    var receiptno={"new_receipt1":req.query.receipt};
        }
        else if(type="installment2"){
           var acknowno={"receipt_no2":req.query.acknow};
-    var receiptno={"new_receipt2":req.query.receipt};    
+    var receiptno={"new_receipt2":req.query.receipt};
        }
-    
+
     var schoolx={"school_id":req.query.schol};
 
       connection.query('update student_fee set ? where ?,?,?',[receiptno,id,acknowno,schoolx],
@@ -4622,8 +4624,116 @@ app.post('/getfeechequedetails',  urlencodedParser,function (req, res)
     }
 });
   });
+app.post('/departmentwisereport',  urlencodedParser,function (req, res)
+{
+  var schoolx={"school_id":req.query.schol};
+  var gendermale={"gender":"Male"};
+  var genderfemale={"gender":"female"};
+  connection.query('SELECT (select count(*) from student_details where ? and department_id=d.id) as male_count,(select count(*) from student_details where ? and department_id=d.id) as female_count,(select count(*) from student_details where department_id=d.id)as total,d.department_name  from student_details s join departments d on d.id=s.department_id where ? GROUP by d.department_name',[gendermale,genderfemale,schoolx],
+    function(err, rows) {
+      if (!err) {
+        if (rows.length > 0) {
+          console.log(rows);
+          res.status(200).json({'returnval': rows});
+          console.log(rows);
+        } else {
+          res.status(200).json({'returnval': 'invalid'});
+        }
+      }
+    });
+});
+app.post('/department',  urlencodedParser,function (req, res)
+{
+  var schoolx={"school_id":req.query.schol};
+  connection.query('SELECT * from departments where ? ',[schoolx],
+    function(err, rows) {
+      if (!err) {
+        if (rows.length > 0) {
+          res.status(200).json({'returnval': rows});
+        } else {
+          res.status(200).json({'returnval': 'invalid'});
+        }
+      }
+    });
+});
+app.post('/getclassinsidedept',  urlencodedParser,function (req, res)
+{
+  var schoolx={"school_id":req.query.schol};
+  var department = {"department_id":req.query.department};
+  connection.query('SELECT * from class_details where ? and ?',[schoolx, department],
+    function(err, rows) {
+      if (!err) {
+        if (rows.length > 0) {
+          res.status(200).json({'returnval': rows});
+        } else {
+          res.status(200).json({'returnval': 'invalid'});
+        }
+      }
+    });
+});
 
+app.post('/getclassreporturl',  urlencodedParser,function (req, res)
+{
+  var schoolx={"s.school_id":req.query.schol};
+  var grade= {"s.class_id":req.query.grade};
+  connection.query('SELECT s.class_id, s.student_name,s.id,(SELECT point_name from point where id = sp.pickup_point) as point_name,r.route_name FROM student_details s join student_point sp on s.id=sp.student_id JOIN route r on sp.pickup_route_id=r.id where ? and ?',[grade,schoolx],
+    function(err, rows) {
+      if (!err) {
+        if (rows.length > 0) {
+          res.status(200).json({'returnval': rows});
+        } else {
+          res.status(200).json({'returnval': 'invalid'});
+        }
+      }
+    });
+});
 
+app.post('/getreportdeptroute',  urlencodedParser,function (req, res)
+{
+  var department={"id":req.query.department};
+  var route = {"p.pickup_route_id":req.query.route};
+  connection.query('SELECT s.id, s.student_name,c.class,c.year,c.section FROM  class_details c join student_details s on s.class_id=c.id join student_point p on s.id=p.student_id where s.department_id=(select id from departments where ?) and ?',[department,route],
+    function(err, rows) {
+      if (!err) {
+        if (rows.length > 0) {
+          res.status(200).json({'returnval': rows});
+        } else {
+          res.status(200).json({'returnval': 'invalid'});
+        }
+      }
+    });
+});
+app.post('/deptgender',  urlencodedParser,function (req, res)
+{
+  var male={"gender":1};
+  var female = {"gender":2};
+  connection.query('SELECT  (select count(*) from student_details where ? and department_id=d.id)as male,(select count(*) from student_details where ? and department_id=d.id) as female,d.department_name from student_details s join departments d on s.department_id=d.id GROUP by d.department_name',[male,female],
+    function(err, rows) {
+      if (!err) {
+        if (rows.length > 0) {
+          res.status(200).json({'returnval': rows});
+        } else {
+          res.status(200).json({'returnval': 'invalid'});
+        }
+      }
+    });
+});
+app.post('/deptugpggender',  urlencodedParser,function (req, res)
+{
+  var male={"gender":1};
+  var female = {"gender":2};
+  connection.query('SELECT (select count(*) from student_details where ? and department_id=d.id and school_type=s.school_type)as male,(select count(*) from student_details where ? and department_id=d.id and school_type=s.school_type) as female,d.department_name,s.school_type from student_details s join departments d on s.department_id=d.id GROUP by d.department_name,s.school_type',[male,female],
+    function(err, rows) {
+      if (!err) {
+        if (rows.length > 0) {
+          console.log(rows);
+          res.status(200).json({'returnval': rows});
+        } else {
+          res.status(200).json({'returnval': 'invalid'});
+        }
+      }
+    });
+});
 function setvalue(){
   console.log("calling setvalue.....");
 }
